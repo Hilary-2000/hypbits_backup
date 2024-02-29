@@ -1,0 +1,14 @@
+{
+    "name": "hila/hypbits_backup",
+    "description": "billing.hypbits.com backup",
+    "authors": [
+        {
+            "name": "Hillary Ngige",
+            "email": "hilaryme45@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.0.0",
+        "google/apiclient": "^2.15"
+    }
+}
