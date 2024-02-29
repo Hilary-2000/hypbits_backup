@@ -26,6 +26,9 @@
     $backup_dir = 'backup_'.$date;
     // $backup_dir = 'backup';
 
+    // define date and time
+    $folder_date = date("Ymd");
+    $folder_time = date("His");
     while ($rowed = mysqli_fetch_assoc($res)) {
         // define
         $database = $rowed['organization_database'];
@@ -86,7 +89,7 @@
 
 
         // upload the file in drive then delete when done
-        $file_id = upload_file_to_drive($backup_file);
+        $file_id = upload_file_to_drive($backup_file,$folder_date,$folder_time);
 
         // success message
         echo "Backup completed. Check $backup_file (id : $file_id) for the exported database.<br>";
@@ -119,13 +122,13 @@
         }
     }
 
-    function upload_file_to_drive($file_locale){
+    function upload_file_to_drive($file_locale,$date,$time){
 
 
         // Your Google Drive credentials
-        $client_id = '919822737892-u6gl0omh7ojk1jc3l4ej858l1521tlhe.apps.googleusercontent.com';
-        $client_secret = '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';
-        $refresh_token = '1//04KEUltN-z69SCgYIARAAGAQSNwF-L9Ir6fdXpspYrNJSCycmCzOCSYsJuFbIgOhrvh_U8SQQ3bZS1XBa-Ot9iKzv6At9OH3QXYM';
+        $client_id = '388507262700-opmlop4vm83li7s58nfe9q8hpg4v8lqg.apps.googleusercontent.com';
+        $client_secret = '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';
+        $refresh_token = '1//04br2vnoABWjlCgYIARAAGAQSNwF-L9Irs0gzEGG9sqW0Hc_ISumprUGjmDTi1UHCyDktmzWsybzTLvn14t1WdOv5OT3jEsOV7-Q';
         
         // Create Google Client
         $client = new Google_Client();
@@ -138,7 +141,7 @@
         $service = new Google_Service_Drive($client);
         /** */
         // Explode the path into individual folder names
-        $folder_path = "billing_backup/".date("Ymd")."/".date("His");
+        $folder_path = "billing_backup/".$date."/".$time;
         $folders = explode('/', $folder_path);
 
         // Initialize parent folder ID to root
@@ -166,7 +169,7 @@
                 // The folder exists, get its ID for the next iteration
                 $parent_id = $results->getFiles()[0]->getId();
             }
-            echo $parent_id."<br>";
+            // echo $parent_id."<br>";
         }
         /** */
 
